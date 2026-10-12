@@ -38,7 +38,6 @@
         }
     </script>
     <style>
-        /* Dark Mode */
         body {
             background: linear-gradient(135deg, #0B1121 0%, #172554 100%);
             min-height: 100vh;
@@ -83,12 +82,10 @@
             color: white;
         }
 
-        /* Custom Modal Overlay */
         .modal-overlay {
             backdrop-filter: blur(4px);
         }
         
-        /* Dark mode table */
         .admin-table td, .admin-table th {
             padding: 8px 6px;
             font-size: 12px;
@@ -107,7 +104,6 @@
             background: rgba(255, 255, 255, 0.03);
         }
         
-        /* Expiry badge */
         .expiry-badge {
             background: rgba(64, 224, 208, 0.15);
             color: #e2e8f0;
@@ -124,7 +120,6 @@
             color: #40E0D0;
         }
         
-        /* Select field for dark mode */
         .select-dark {
             background: rgba(255, 255, 255, 0.05);
             color: white;
@@ -134,7 +129,6 @@
             color: white;
         }
         
-        /* Gender badges */
         .gender-male {
             background: rgba(59, 130, 246, 0.2);
             color: #60a5fa;
@@ -148,6 +142,26 @@
             padding: 2px 8px;
             border-radius: 12px;
             font-size: 10px;
+        }
+
+        /* Card code input styling - 7 digits */
+        .card-code-input {
+            text-align: center;
+            font-size: 2rem;
+            letter-spacing: 0.8rem;
+            font-weight: 700;
+            font-family: monospace;
+            direction: ltr;
+            padding-right: 1.3rem;
+        }
+
+        /* Important notice pulse */
+        @keyframes noticePulse {
+            0%, 100% { box-shadow: 0 0 0 0 rgba(217, 70, 239, 0.4); }
+            50% { box-shadow: 0 0 0 10px rgba(217, 70, 239, 0); }
+        }
+        .notice-pulse {
+            animation: noticePulse 2s infinite;
         }
     </style>
 </head>
@@ -193,21 +207,60 @@
 
         <main id="main-container" class="min-h-[60vh]">
 
-            <!-- Gatekeeper (Login) - Dark Mode -->
-            <div id="gatekeeper-view" class="text-center py-20 animate-slide-up glass-panel rounded-3xl p-8 max-w-lg mx-auto border-t-4 border-t-mawadda-cyan shadow-2xl relative overflow-hidden">
+            <!-- Gatekeeper (Card Code Login) - Dark Mode -->
+            <div id="gatekeeper-view" class="text-center py-12 animate-slide-up glass-panel rounded-3xl p-8 max-w-lg mx-auto border-t-4 border-t-mawadda-cyan shadow-2xl relative overflow-hidden">
                 <div class="absolute -bottom-10 -left-10 w-40 h-40 bg-mawadda-magenta rounded-full mix-blend-multiply filter blur-3xl opacity-20"></div>
-                <div class="mx-auto w-24 h-24 bg-slate-900 rounded-full flex items-center justify-center mb-6 border-2 border-slate-700 shadow-inner">
-                    <i class="fa-brands fa-google text-4xl text-white"></i>
+                
+                <!-- Important Notice Banner -->
+                <div class="notice-pulse bg-gradient-to-r from-mawadda-magenta/20 to-red-500/20 border-2 border-mawadda-magenta/50 rounded-2xl p-4 mb-6 relative z-10">
+                    <div class="flex items-center gap-3 justify-center">
+                        <i class="fa-solid fa-triangle-exclamation text-2xl text-mawadda-magenta"></i>
+                        <div class="text-right">
+                            <p class="font-black text-white text-sm">تنبيه هام جداً</p>
+                            <p class="text-xs text-slate-300 mt-1">الدخول إلى الندوة <span class="text-mawadda-magenta font-bold">بالكارنيه فقط</span> - لا يُسمح بالدخول بدون إبراز الكارنيه</p>
+                        </div>
+                    </div>
                 </div>
-                <h2 class="text-2xl font-black text-white mb-3">بوابة الدخول الموحدة</h2>
-                <p class="text-slate-300 mb-8 text-sm leading-relaxed">
-                    مرحباً بك في المنصة السحابية المؤمنة لندوة مودة. يُرجى تسجيل الدخول باستخدام حساب Google الخاص بك للوصول إلى استمارة التسجيل أو لوحة التحكم.
+
+                <div class="mx-auto w-24 h-24 bg-slate-900 rounded-full flex items-center justify-center mb-6 border-2 border-slate-700 shadow-inner relative z-10">
+                    <i class="fa-solid fa-id-card text-4xl text-mawadda-cyan"></i>
+                </div>
+                <h2 class="text-2xl font-black text-white mb-3 relative z-10">بوابة الدخول بالكارنيه</h2>
+                <p class="text-slate-300 mb-6 text-sm leading-relaxed relative z-10">
+                    مرحباً بك في منصة تسجيل حضور ندوة مودة. يُرجى إدخال <span class="text-mawadda-cyan font-bold">كود الطالب</span> المكوّن من 7 أرقام والموجود أسفل صورتك الشخصية على الكارنيه.
                 </p>
-                <button onclick="handleGoogleSignIn()" class="group bg-white hover:bg-slate-100 text-slate-900 font-bold px-8 py-4 rounded-2xl transition-all flex items-center justify-center gap-3 mx-auto w-full md:w-auto shadow-xl hover:shadow-mawadda-cyan/20 transform hover:-translate-y-1">
-                    <img src="https://www.svgrepo.com/show/475656/google-color.svg" class="w-6 h-6" alt="Google">
-                    المتابعة باستخدام Google
-                    <i class="fa-solid fa-arrow-left text-sm opacity-0 group-hover:opacity-100 transition-opacity mr-2"></i>
-                </button>
+
+                <div class="space-y-4 relative z-10">
+                    <div>
+                        <label class="block text-sm font-semibold text-slate-300 mb-2 text-right">
+                            <i class="fa-solid fa-hashtag text-mawadda-cyan ml-1"></i>
+                            كود الطالب (7 أرقام)
+                        </label>
+                        <input type="text" id="card-code-input" 
+                               placeholder="0000000" 
+                               class="input-field card-code-input w-full p-4 rounded-xl"
+                               maxlength="7"
+                               inputmode="numeric"
+                               pattern="[0-9]*"
+                               oninput="this.value = this.value.replace(/[^0-9]/g, '').slice(0, 7)">
+                        <p class="text-[10px] text-slate-400 mt-1 text-right">
+                            <i class="fa-solid fa-circle-info text-mawadda-cyan ml-1"></i>
+                            الكود مكوّن من 7 أرقام بدون أي رموز، موجود تحت الصورة الشخصية بالكارنيه
+                        </p>
+                    </div>
+                    <button onclick="handleCardCodeSignIn()" class="group bg-gradient-to-l from-mawadda-cyan to-blue-600 hover:from-blue-600 hover:to-mawadda-magenta text-white font-bold px-8 py-4 rounded-2xl transition-all flex items-center justify-center gap-3 mx-auto w-full shadow-xl hover:shadow-mawadda-cyan/20 transform hover:-translate-y-1">
+                        <i class="fa-solid fa-right-to-bracket"></i>
+                        تسجيل الدخول
+                        <i class="fa-solid fa-arrow-left text-sm opacity-0 group-hover:opacity-100 transition-opacity mr-2"></i>
+                    </button>
+                </div>
+
+                <div class="mt-6 pt-4 border-t border-slate-700/50 relative z-10">
+                    <p class="text-[11px] text-slate-400">
+                        <i class="fa-solid fa-circle-info text-mawadda-cyan ml-1"></i>
+                        في حال فقدان الكارنيه، يُرجى التوجه إلى شؤون الطلاب لاستخراج بديل.
+                    </p>
+                </div>
             </div>
 
             <!-- Registration Form - Dark Mode -->
@@ -215,6 +268,25 @@
                 <div class="flex items-center gap-3 mb-6 border-b border-slate-700/50 pb-4">
                     <i class="fa-solid fa-id-card text-2xl text-mawadda-cyan"></i>
                     <h2 class="text-xl font-bold text-white">استمارة الحضور الرقمية</h2>
+                </div>
+
+                <!-- Important Notice inside form -->
+                <div class="bg-gradient-to-r from-mawadda-magenta/10 to-red-500/10 border border-mawadda-magenta/30 rounded-2xl p-3 mb-6">
+                    <div class="flex items-center gap-3">
+                        <i class="fa-solid fa-triangle-exclamation text-lg text-mawadda-magenta"></i>
+                        <p class="text-xs text-slate-300">
+                            <span class="font-bold text-white">تذكير:</span> الدخول إلى الندوة بالكارنيه فقط. يرجى إحضار الكارنيه معك يوم الندوة.
+                        </p>
+                    </div>
+                </div>
+
+                <!-- Student Code Display -->
+                <div class="bg-mawadda-cyan/10 border border-mawadda-cyan/30 rounded-2xl p-3 mb-6 flex items-center justify-between">
+                    <div class="flex items-center gap-3">
+                        <i class="fa-solid fa-user-check text-lg text-mawadda-cyan"></i>
+                        <span class="text-xs text-slate-300">كود الطالب المسجّل:</span>
+                    </div>
+                    <span id="display-card-code" class="font-mono font-bold text-mawadda-cyan text-lg tracking-widest"></span>
                 </div>
 
                 <form id="registration-form" onsubmit="submitRegistration(event)" class="space-y-6">
@@ -303,6 +375,10 @@
                                 <option value="مخطوبة">مخطوبة</option>
                                 <option value="متزوج">متزوج</option>
                                 <option value="متزوجة">متزوجة</option>
+                                <option value="مطلق">مطلق</option>
+                                <option value="مطلقة">مطلقة</option>
+                                <option value="أرمل">أرمل</option>
+                                <option value="أرملة">أرملة</option>
                             </select>
                         </div>
                     </div>
@@ -311,6 +387,7 @@
                     <input type="hidden" id="reg-age" value="">
                     <input type="hidden" id="reg-gender" value="">
                     <input type="hidden" id="reg-email" value="">
+                    <input type="hidden" id="reg-card-code" value="">
 
                     <div class="mt-8">
                         <button type="submit" id="submit-btn" class="w-full bg-gradient-to-l from-mawadda-cyan to-blue-600 hover:from-blue-600 hover:to-mawadda-magenta text-white font-bold text-lg py-4 rounded-2xl transition-all shadow-lg shadow-mawadda-cyan/30 flex items-center justify-center gap-2">
@@ -330,7 +407,15 @@
                             <i class="fa-solid fa-check text-4xl text-green-400"></i>
                         </div>
                         <h2 class="text-2xl font-black text-white mb-2">تم تأكيد حضورك بنجاح</h2>
-                        <p class="text-slate-400 mb-8">ننتظر مشاركتك الفعالة في الندوة التوعوية</p>
+                        <p class="text-slate-400 mb-4">ننتظر مشاركتك الفعالة في الندوة التوعوية</p>
+
+                        <!-- Important Notice in Ticket -->
+                        <div class="bg-mawadda-magenta/10 border border-mawadda-magenta/30 rounded-xl p-3 mb-6">
+                            <p class="text-xs text-slate-300">
+                                <i class="fa-solid fa-triangle-exclamation text-mawadda-magenta ml-1"></i>
+                                <span class="font-bold text-white">تذكير:</span> الدخول إلى الندوة بالكارنيه فقط
+                            </p>
+                        </div>
 
                         <!-- Ticket -->
                         <div class="bg-gradient-to-r from-slate-900 to-slate-800 p-6 rounded-2xl border border-slate-700 text-right relative overflow-hidden">
@@ -359,6 +444,10 @@
                                         <p class="text-[10px] text-slate-400">الرقم القومي</p>
                                         <p class="font-mono text-sm text-slate-300" id="ticket-nid"></p>
                                     </div>
+                                </div>
+                                <div>
+                                    <p class="text-[10px] text-slate-400">كود الطالب</p>
+                                    <p class="font-mono text-sm text-mawadda-cyan tracking-widest" id="ticket-card"></p>
                                 </div>
                             </div>
 
@@ -439,6 +528,7 @@
                             <thead>
                                 <tr class="text-slate-400 border-b border-slate-700/50">
                                     <th class="pb-2 px-2 font-semibold whitespace-nowrap">الاسم</th>
+                                    <th class="pb-2 px-2 font-semibold whitespace-nowrap">كود الطالب</th>
                                     <th class="pb-2 px-2 font-semibold whitespace-nowrap">العنوان</th>
                                     <th class="pb-2 px-2 font-semibold whitespace-nowrap">المحافظة</th>
                                     <th class="pb-2 px-2 font-semibold whitespace-nowrap">الحالة الاجتماعية</th>
@@ -463,10 +553,10 @@
 
     <script>
         // --- Configuration & Global State ---
-        const ADMIN_EMAIL = "admin@delta.edu";
+        const ADMIN_CARD_CODE = "9999999"; // Admin student code (7 digits)
         const GEMINI_API_KEY = "YOUR_GEMINI_API_KEY"; // Replace with your actual key
 
-        // ✅ Google Apps Script Web App URL (Updated with new deployment)
+        // ✅ Google Apps Script Web App URL
         const GOOGLE_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbwJpl0rkODypw85umnvfraGLhO23VcrO8bkuYRe9gyNUPj0IH_QrGEvgOzZL2fBl6KG/exec";
 
         // ⏰ مدة صلاحية البيانات (14 يوم)
@@ -527,14 +617,41 @@
             }
         });
 
-        // --- Auth ---
-        function handleGoogleSignIn() {
-            const emailPrompt = prompt("لأغراض المعاينة: أدخل بريدك الإلكتروني (استخدم admin@delta.edu للدخول كأدمن، أو أي بريد آخر للدخول كطالب):", "student@gmail.com");
-            if (emailPrompt) {
-                currentUser = { email: emailPrompt.toLowerCase() };
+        // --- Auth (Card Code Based - 7 digits) ---
+        function handleCardCodeSignIn() {
+            const cardCode = document.getElementById('card-code-input').value.trim();
+
+            if (!cardCode) {
+                showCustomModal("خطأ", "يُرجى إدخال كود الطالب أولاً.", "error");
+                return;
+            }
+
+            // Validate: exactly 7 digits
+            if (!/^\d{7}$/.test(cardCode)) {
+                showCustomModal("خطأ", "كود الطالب يجب أن يكون 7 أرقام فقط (بدون رموز أو حروف). يُرجى التأكد من الكود الموجود أسفل صورتك على الكارنيه.", "error");
+                return;
+            }
+
+            // Check if admin
+            if (cardCode === ADMIN_CARD_CODE) {
+                currentUser = { 
+                    cardCode: cardCode, 
+                    email: 'admin@delta.edu',
+                    isAdmin: true 
+                };
                 updateAuthUI();
                 routeUser();
+                return;
             }
+
+            // Regular user
+            currentUser = { 
+                cardCode: cardCode, 
+                email: cardCode + '@delta.edu',
+                isAdmin: false 
+            };
+            updateAuthUI();
+            routeUser();
         }
 
         function handleSignOut() {
@@ -542,15 +659,17 @@
             updateAuthUI();
             hideAllViews();
             document.getElementById('gatekeeper-view').classList.remove('hidden');
+            document.getElementById('card-code-input').value = '';
         }
 
         function updateAuthUI() {
             const container = document.getElementById('auth-status-container');
             if (currentUser) {
+                const displayName = currentUser.isAdmin ? 'المدير' : currentUser.cardCode;
                 container.innerHTML = `
                         <div class="text-left hidden md:block">
                             <p class="text-xs text-slate-400">مرحباً</p>
-                            <p class="text-sm font-bold text-white truncate max-w-[120px]">${currentUser.email.split('@')[0]}</p>
+                            <p class="text-sm font-bold text-white truncate max-w-[120px] font-mono">${displayName}</p>
                         </div>
                         <button onclick="handleSignOut()" class="bg-slate-800 hover:bg-slate-700 text-red-400 p-2 rounded-xl transition border border-slate-700">
                             <i class="fa-solid fa-arrow-right-from-bracket"></i>
@@ -563,16 +682,17 @@
 
         function routeUser() {
             hideAllViews();
-            if (currentUser.email === ADMIN_EMAIL) {
+            if (currentUser.isAdmin) {
                 document.getElementById('admin-view').classList.remove('hidden');
                 loadAdminData();
             } else {
-                const existingReg = localDB.find(r => r.email === currentUser.email);
+                const existingReg = localDB.find(r => r.cardCode === currentUser.cardCode);
                 if (existingReg) {
                     showTicket(existingReg);
                 } else {
                     document.getElementById('register-view').classList.remove('hidden');
-                    document.getElementById('reg-email').value = currentUser.email;
+                    document.getElementById('reg-card-code').value = currentUser.cardCode;
+                    document.getElementById('display-card-code').innerText = currentUser.cardCode;
                 }
             }
         }
@@ -600,6 +720,9 @@
             } else if (type === 'warning') {
                 icon.innerHTML = '<i class="fa-solid fa-triangle-exclamation text-4xl"></i>';
                 icon.className = 'w-16 h-16 rounded-full mx-auto flex items-center justify-center mb-4 text-yellow-400 bg-yellow-500/10 border border-yellow-500/20';
+            } else {
+                icon.innerHTML = '<i class="fa-solid fa-circle-info text-4xl"></i>';
+                icon.className = 'w-16 h-16 rounded-full mx-auto flex items-center justify-center mb-4 text-blue-400 bg-blue-500/10 border border-blue-500/20';
             }
 
             const btn = modal.querySelector('button');
@@ -713,6 +836,7 @@
             // ترتيب البيانات حسب المطلوب
             const data = {
                 name: name,
+                cardCode: currentUser.cardCode,
                 address: document.getElementById('reg-address').value,
                 governorate: document.getElementById('reg-gov').value,
                 status: document.getElementById('reg-status').value,
@@ -771,6 +895,7 @@
             document.getElementById('ticket-name').innerText = data.name;
             document.getElementById('ticket-year').innerText = data.year;
             document.getElementById('ticket-nid').innerText = data.nid;
+            document.getElementById('ticket-card').innerText = data.cardCode || 'غير متوفر';
         }
 
         // --- Admin ---
@@ -786,7 +911,7 @@
 
             if (localDB.length === 0) {
                 tbody.innerHTML =
-                `<tr><td colspan="10" class="text-center py-6 text-slate-500">لا يوجد مسجلين حتى الآن.</td></tr>`;
+                `<tr><td colspan="11" class="text-center py-6 text-slate-500">لا يوجد مسجلين حتى الآن.</td></tr>`;
             } else {
                 localDB.forEach(user => {
                     totalAge += parseInt(user.age);
@@ -797,6 +922,9 @@
                                 <td class="py-2 px-2 whitespace-nowrap">
                                     <p class="font-bold text-white text-xs">${user.name}</p>
                                     <p class="text-[9px] text-slate-400">${user.email || ''}</p>
+                                </td>
+                                <td class="py-2 px-2 whitespace-nowrap">
+                                    <span class="font-mono text-mawadda-cyan text-xs bg-mawadda-cyan/10 px-2 py-1 rounded tracking-widest">${user.cardCode || '-'}</span>
                                 </td>
                                 <td class="py-2 px-2 text-slate-300 text-xs max-w-[120px] truncate" title="${user.address || ''}">${user.address || '-'}</td>
                                 <td class="py-2 px-2 text-slate-300 text-xs">${user.governorate || '-'}</td>
