@@ -4,10 +4,12 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>تسجيل حضور ندوة مودة لطلاب معهد الدلتا</title>
-    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.tailwindcss.com">
+    </script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;600;700;900&display=swap" rel="stylesheet">
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.9.1/chart.min.js">
+    </script>
     <script>
         tailwind.config = {
             theme: {
@@ -160,27 +162,6 @@
         }
         .notice-pulse {
             animation: noticePulse 2s infinite;
-        }
-
-        /* QR Code container */
-        #qrcode-container img {
-            display: block;
-            margin: 0 auto;
-        }
-
-        /* Ticket header pattern */
-        .ticket-pattern {
-            background-image: radial-gradient(circle, white 1px, transparent 1px);
-            background-size: 12px 12px;
-        }
-
-        /* Print styles */
-        @media print {
-            body * { visibility: hidden; }
-            #success-view, #success-view * { visibility: visible; }
-            #success-view { position: absolute; left: 0; top: 0; width: 100%; }
-            #success-view button { display: none !important; }
-            body { background: white !important; }
         }
     </style>
 </head>
@@ -405,6 +386,7 @@
                     <!-- Hidden auto-calculated fields -->
                     <input type="hidden" id="reg-age" value="">
                     <input type="hidden" id="reg-gender" value="">
+                    <input type="hidden" id="reg-email" value="">
                     <input type="hidden" id="reg-card-code" value="">
 
                     <div class="mt-8">
@@ -416,124 +398,69 @@
                 </form>
             </div>
 
-            <!-- Success / QR Ticket View - Dark Mode -->
+            <!-- Success / Ticket View - Dark Mode -->
             <div id="success-view" class="hidden animate-fade-in max-w-2xl mx-auto">
                 <div class="bg-white rounded-3xl p-1 shadow-2xl relative overflow-hidden">
                     <div class="absolute inset-0 bg-gradient-to-br from-mawadda-cyan/20 to-mawadda-magenta/20 z-0"></div>
-                    
-                    <div class="bg-slate-950 rounded-[22px] relative z-10 border border-slate-800 overflow-hidden">
-                        
-                        <!-- Ticket Header -->
-                        <div class="bg-gradient-to-l from-mawadda-cyan via-blue-600 to-mawadda-magenta p-4 relative overflow-hidden">
-                            <div class="absolute inset-0 opacity-20 ticket-pattern"></div>
-                            <div class="relative flex items-center justify-between">
-                                <div class="flex items-center gap-3">
-                                    <div class="bg-white p-1.5 rounded-xl w-12 h-12 flex items-center justify-center shadow-lg">
-                                        <img src="https://mawadda-eg.com/assets/img/Logo%20on%20white%20background.png" alt="مودة" class="w-full h-full object-contain">
-                                    </div>
-                                    <div>
-                                        <p class="text-[10px] text-white/80 font-bold tracking-widest">MAWADDA EVENT</p>
-                                        <p class="text-sm font-black text-white">ندوة مودة التوعوية</p>
-                                    </div>
+                    <div class="bg-slate-950 p-8 rounded-[22px] relative z-10 border border-slate-800 text-center">
+                        <div class="w-20 h-20 bg-green-500/10 rounded-full flex items-center justify-center mx-auto mb-4 border border-green-500/30">
+                            <i class="fa-solid fa-check text-4xl text-green-400"></i>
+                        </div>
+                        <h2 class="text-2xl font-black text-white mb-2">تم تأكيد حضورك بنجاح</h2>
+                        <p class="text-slate-400 mb-4">ننتظر مشاركتك الفعالة في الندوة التوعوية</p>
+
+                        <!-- Important Notice in Ticket -->
+                        <div class="bg-mawadda-magenta/10 border border-mawadda-magenta/30 rounded-xl p-3 mb-6">
+                            <p class="text-xs text-slate-300">
+                                <i class="fa-solid fa-triangle-exclamation text-mawadda-magenta ml-1"></i>
+                                <span class="font-bold text-white">تذكير:</span> الدخول إلى الندوة بالكارنيه فقط
+                            </p>
+                        </div>
+
+                        <!-- Ticket -->
+                        <div class="bg-gradient-to-r from-slate-900 to-slate-800 p-6 rounded-2xl border border-slate-700 text-right relative overflow-hidden">
+                            <div class="absolute -left-6 -top-6 w-24 h-24 bg-mawadda-cyan rounded-full mix-blend-overlay filter blur-2xl opacity-40"></div>
+                            <div class="flex justify-between items-start mb-6 border-b border-slate-700 pb-4">
+                                <div class="bg-white p-2 rounded-xl w-14 h-14 flex items-center justify-center">
+                                    <img src="https://mawadda-eg.com/assets/img/Logo%20on%20white%20background.png" alt="مودة" class="w-full h-full object-contain">
                                 </div>
                                 <div class="text-left">
-                                    <p class="text-[9px] text-white/70 uppercase tracking-widest">Ticket No.</p>
-                                    <p class="font-mono font-black text-white text-sm" id="ticket-code-display">MWD-0000</p>
+                                    <p class="text-[10px] text-slate-400 uppercase tracking-widest">Ticket ID</p>
+                                    <p class="font-mono text-mawadda-cyan font-bold" id="ticket-id">MWD-0000</p>
+                                </div>
+                            </div>
+
+                            <div class="space-y-3">
+                                <div>
+                                    <p class="text-[10px] text-slate-400">الاسم</p>
+                                    <p class="font-bold text-white text-lg" id="ticket-name"></p>
+                                </div>
+                                <div class="grid grid-cols-2 gap-4">
+                                    <div>
+                                        <p class="text-[10px] text-slate-400">الفرقة</p>
+                                        <p class="font-bold text-slate-200" id="ticket-year"></p>
+                                    </div>
+                                    <div>
+                                        <p class="text-[10px] text-slate-400">الرقم القومي</p>
+                                        <p class="font-mono text-sm text-slate-300" id="ticket-nid"></p>
+                                    </div>
+                                </div>
+                                <div>
+                                    <p class="text-[10px] text-slate-400">كود الطالب</p>
+                                    <p class="font-mono text-sm text-mawadda-cyan tracking-widest" id="ticket-card"></p>
+                                </div>
+                            </div>
+
+                            <div class="mt-6 pt-6 border-t border-slate-700/50 flex justify-center">
+                                <div class="w-full h-12 opacity-70 flex gap-[2px] justify-center items-center" id="barcode-container">
                                 </div>
                             </div>
                         </div>
 
-                        <!-- Ticket Body -->
-                        <div class="p-6">
-                            
-                            <!-- Success Badge -->
-                            <div class="flex items-center justify-center gap-2 mb-5">
-                                <div class="w-8 h-8 bg-green-500/10 rounded-full flex items-center justify-center border border-green-500/30">
-                                    <i class="fa-solid fa-check text-green-400 text-sm"></i>
-                                </div>
-                                <p class="text-green-400 font-bold text-sm">تم تأكيد حضورك بنجاح</p>
-                            </div>
-
-                            <!-- QR Code Centerpiece -->
-                            <div class="flex flex-col items-center mb-6">
-                                <div class="bg-white p-4 rounded-2xl shadow-2xl relative">
-                                    <!-- Corner decorations -->
-                                    <div class="absolute -top-1 -left-1 w-4 h-4 border-t-2 border-l-2 border-mawadda-cyan rounded-tl-lg"></div>
-                                    <div class="absolute -top-1 -right-1 w-4 h-4 border-t-2 border-r-2 border-mawadda-cyan rounded-tr-lg"></div>
-                                    <div class="absolute -bottom-1 -left-1 w-4 h-4 border-b-2 border-l-2 border-mawadda-cyan rounded-bl-lg"></div>
-                                    <div class="absolute -bottom-1 -right-1 w-4 h-4 border-b-2 border-r-2 border-mawadda-cyan rounded-br-lg"></div>
-                                    
-                                    <div id="qrcode-container" class="flex justify-center"></div>
-                                </div>
-                                <p class="text-[10px] text-slate-500 mt-3 flex items-center gap-1">
-                                    <i class="fa-solid fa-qrcode text-mawadda-cyan"></i>
-                                    امسح الكود للتحقق من الحضور
-                                </p>
-                            </div>
-
-                            <!-- Student Info Grid -->
-                            <div class="space-y-3 mb-5">
-                                <div class="text-center pb-3 border-b border-dashed border-slate-700">
-                                    <p class="text-[10px] text-slate-400 mb-1">الاسم</p>
-                                    <p class="font-black text-white text-lg" id="ticket-name"></p>
-                                </div>
-                                
-                                <div class="grid grid-cols-2 gap-3">
-                                    <div class="bg-slate-900/60 rounded-xl p-3 border border-slate-800">
-                                        <p class="text-[9px] text-slate-400 mb-1 flex items-center gap-1">
-                                            <i class="fa-solid fa-graduation-cap text-mawadda-cyan"></i>
-                                            الفرقة
-                                        </p>
-                                        <p class="font-bold text-white text-sm" id="ticket-year"></p>
-                                    </div>
-                                    <div class="bg-slate-900/60 rounded-xl p-3 border border-slate-800">
-                                        <p class="text-[9px] text-slate-400 mb-1 flex items-center gap-1">
-                                            <i class="fa-solid fa-hashtag text-mawadda-cyan"></i>
-                                            كود الطالب
-                                        </p>
-                                        <p class="font-mono font-bold text-mawadda-cyan text-sm tracking-wider" id="ticket-card"></p>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <!-- Dashed separator with cutouts -->
-                            <div class="relative flex items-center my-5">
-                                <div class="absolute -right-8 w-6 h-6 bg-slate-950 rounded-full border-r border-slate-800"></div>
-                                <div class="flex-1 border-t-2 border-dashed border-slate-700"></div>
-                                <div class="absolute -left-8 w-6 h-6 bg-slate-950 rounded-full border-l border-slate-800"></div>
-                            </div>
-
-                            <!-- Notice -->
-                            <div class="bg-mawadda-magenta/10 border border-mawadda-magenta/30 rounded-xl p-3 mb-5">
-                                <p class="text-[11px] text-slate-300 text-center">
-                                    <i class="fa-solid fa-triangle-exclamation text-mawadda-magenta ml-1"></i>
-                                    <span class="font-bold text-white">تذكير:</span> الدخول إلى الندوة بالكارنيه فقط
-                                </p>
-                            </div>
-
-                            <!-- Footer Info -->
-                            <div class="flex items-center justify-between text-[9px] text-slate-500 pt-3 border-t border-slate-800">
-                                <div class="flex items-center gap-1">
-                                    <i class="fa-solid fa-location-dot text-mawadda-cyan"></i>
-                                    <span>معهد الدلتا العالي لنظم المعلومات</span>
-                                </div>
-                                <div class="flex items-center gap-1">
-                                    <i class="fa-regular fa-calendar text-mawadda-cyan"></i>
-                                    <span id="ticket-date">-</span>
-                                </div>
-                            </div>
-                        </div>
+                        <button onclick="window.print()" class="mt-6 w-full bg-slate-800 hover:bg-slate-700 text-white font-bold py-3 rounded-xl transition border border-slate-600 flex justify-center items-center gap-2">
+                            <i class="fa-solid fa-print"></i> طباعة البطاقة
+                        </button>
                     </div>
-                </div>
-
-                <!-- Action Buttons -->
-                <div class="grid grid-cols-2 gap-3 mt-6">
-                    <button onclick="window.print()" class="w-full bg-slate-800 hover:bg-slate-700 text-white font-bold py-3 rounded-xl transition border border-slate-600 flex justify-center items-center gap-2">
-                        <i class="fa-solid fa-print"></i> طباعة التذكرة
-                    </button>
-                    <button onclick="restartSession()" class="w-full bg-gradient-to-l from-mawadda-cyan to-blue-600 hover:from-blue-600 hover:to-mawadda-magenta text-white font-bold py-3 rounded-xl transition shadow-lg flex justify-center items-center gap-2">
-                        <i class="fa-solid fa-rotate-right"></i> ريستارت
-                    </button>
                 </div>
             </div>
 
@@ -582,7 +509,7 @@
                         </div>
 
                         <div id="ai-report-container" class="hidden border border-slate-800 bg-slate-900/50 p-4 rounded-xl mt-4 relative">
-                            <div class="absolute -top-3 right-4 bg-slate-900 px-2 text-[10px] text-mawadda-magenta border border-slate-800 rounded-full font-mono">Powered by Gemini</div>
+                            <div class="absolute -top-3 right-4 bg-slate-900 px-2 text-[10px] text-mawadda-magenta border border-slate-800 rounded-full font-mono">Powered by Gemini 3 Flash</div>
                             <div id="ai-report-content" class="text-sm text-slate-300 leading-relaxed font-sans whitespace-pre-wrap"></div>
                         </div>
                     </div>
@@ -602,7 +529,6 @@
                                 <tr class="text-slate-400 border-b border-slate-700/50">
                                     <th class="pb-2 px-2 font-semibold whitespace-nowrap">الاسم</th>
                                     <th class="pb-2 px-2 font-semibold whitespace-nowrap">كود الطالب</th>
-                                    <th class="pb-2 px-2 font-semibold whitespace-nowrap">كود التذكرة</th>
                                     <th class="pb-2 px-2 font-semibold whitespace-nowrap">العنوان</th>
                                     <th class="pb-2 px-2 font-semibold whitespace-nowrap">المحافظة</th>
                                     <th class="pb-2 px-2 font-semibold whitespace-nowrap">الحالة الاجتماعية</th>
@@ -627,8 +553,8 @@
 
     <script>
         // --- Configuration & Global State ---
-        const ADMIN_CARD_CODE = "9999999";
-        const GEMINI_API_KEY = "YOUR_GEMINI_API_KEY";
+        const ADMIN_CARD_CODE = "9999999"; // Admin student code (7 digits)
+        const GEMINI_API_KEY = "YOUR_GEMINI_API_KEY"; // Replace with your actual key
 
         // ✅ Google Apps Script Web App URL
         const GOOGLE_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbwJpl0rkODypw85umnvfraGLhO23VcrO8bkuYRe9gyNUPj0IH_QrGEvgOzZL2fBl6KG/exec";
@@ -671,12 +597,24 @@
             localStorage.removeItem(EXPIRY_KEY);
         }
 
+        // تحميل البيانات مع التحقق من الصلاحية
         let localDB = getStoredData();
         let currentUser = null;
 
         // --- Initialization ---
         document.addEventListener('DOMContentLoaded', () => {
-            // QR Code يتم توليده عند عرض التذكرة
+            const barcode = document.getElementById('barcode-container');
+            if (barcode) {
+                for (let i = 0; i < 40; i++) {
+                    const width = Math.floor(Math.random() * 4) + 1;
+                    const opacity = Math.random() > 0.3 ? 1 : 0;
+                    const div = document.createElement('div');
+                    div.style.width = width + 'px';
+                    div.style.height = '100%';
+                    div.style.backgroundColor = opacity ? '#94a3b8' : 'transparent';
+                    barcode.appendChild(div);
+                }
+            }
         });
 
         // --- Auth (Card Code Based - 7 digits) ---
@@ -688,14 +626,17 @@
                 return;
             }
 
+            // Validate: exactly 7 digits
             if (!/^\d{7}$/.test(cardCode)) {
                 showCustomModal("خطأ", "كود الطالب يجب أن يكون 7 أرقام فقط (بدون رموز أو حروف). يُرجى التأكد من الكود الموجود أسفل صورتك على الكارنيه.", "error");
                 return;
             }
 
+            // Check if admin
             if (cardCode === ADMIN_CARD_CODE) {
                 currentUser = { 
                     cardCode: cardCode, 
+                    email: 'admin@delta.edu',
                     isAdmin: true 
                 };
                 updateAuthUI();
@@ -703,8 +644,10 @@
                 return;
             }
 
+            // Regular user
             currentUser = { 
                 cardCode: cardCode, 
+                email: cardCode + '@delta.edu',
                 isAdmin: false 
             };
             updateAuthUI();
@@ -758,19 +701,6 @@
             ['gatekeeper-view', 'register-view', 'success-view', 'admin-view'].forEach(id => {
                 document.getElementById(id).classList.add('hidden');
             });
-        }
-
-        // --- Restart Session (Reset current user only) ---
-        function restartSession() {
-            currentUser = null;
-            updateAuthUI();
-            hideAllViews();
-            document.getElementById('gatekeeper-view').classList.remove('hidden');
-            document.getElementById('card-code-input').value = '';
-            document.getElementById('registration-form').reset();
-            document.getElementById('nid-info').innerText = '';
-            document.getElementById('qrcode-container').innerHTML = '';
-            showCustomModal("تم", "تم إعادة تعيين الجلسة. يمكنك الآن تسجيل الدخول مرة أخرى.", "success");
         }
 
         // --- Custom Modal ---
@@ -903,25 +833,10 @@
             btnText.innerText = "جاري الحفظ في الإكسيل...";
             btnIcon.className = "fa-solid fa-spinner fa-spin";
 
-            // كود التذكرة
-            const ticketCode = 'MWD-' + Math.floor(1000 + Math.random() * 9000);
-
-            // محتوى QR (يتبعت للإكسيل كمان)
-            const qrPayload = {
-                id: ticketCode,
-                cardCode: currentUser.cardCode,
-                name: name,
-                nid: document.getElementById('reg-nid').value,
-                year: document.getElementById('reg-year').value,
-                timestamp: new Date().toLocaleString('ar-EG')
-            };
-            const qrDataString = JSON.stringify(qrPayload);
-
-            // ترتيب البيانات حسب المطلوب في الشيت
+            // ترتيب البيانات حسب المطلوب
             const data = {
-                cardCode: currentUser.cardCode,
-                ticketCode: ticketCode,
                 name: name,
+                cardCode: currentUser.cardCode,
                 address: document.getElementById('reg-address').value,
                 governorate: document.getElementById('reg-gov').value,
                 status: document.getElementById('reg-status').value,
@@ -931,12 +846,14 @@
                 nid: document.getElementById('reg-nid').value,
                 gender: document.getElementById('reg-gender').value,
                 timestamp: new Date().toLocaleString('ar-EG'),
-                qrData: qrDataString,
-                id: ticketCode
+                // حقول إضافية للاستخدام الداخلي
+                id: 'MWD-' + Math.floor(1000 + Math.random() * 9000),
+                email: currentUser.email
             };
 
             try {
-                await fetch(GOOGLE_SCRIPT_URL, {
+                // إرسال البيانات إلى Google Sheets بالترتيب المطلوب
+                const response = await fetch(GOOGLE_SCRIPT_URL, {
                     method: 'POST',
                     mode: 'no-cors',
                     headers: {
@@ -945,6 +862,7 @@
                     body: JSON.stringify(data)
                 });
 
+                // حفظ البيانات محلياً مع تاريخ صلاحية 14 يوم
                 localDB.push(data);
                 setStoredData(localDB);
 
@@ -958,6 +876,7 @@
                 console.error("Error saving data:", error);
                 showCustomModal("خطأ", "حدث مشكلة أثناء الحفظ في الإكسيل. ولكن تم حفظ البيانات محلياً.", "warning");
                 
+                // حفظ البيانات محلياً حتى لو فشل الاتصال
                 localDB.push(data);
                 setStoredData(localDB);
                 showTicket(data);
@@ -968,40 +887,15 @@
             }
         }
 
-        // --- عرض التذكرة مع QR Code ---
         function showTicket(data) {
             hideAllViews();
             document.getElementById('success-view').classList.remove('hidden');
 
+            document.getElementById('ticket-id').innerText = data.id || 'MWD-' + Math.floor(1000 + Math.random() * 9000);
             document.getElementById('ticket-name').innerText = data.name;
             document.getElementById('ticket-year').innerText = data.year;
+            document.getElementById('ticket-nid').innerText = data.nid;
             document.getElementById('ticket-card').innerText = data.cardCode || 'غير متوفر';
-            document.getElementById('ticket-code-display').innerText = data.ticketCode || data.id || 'MWD-0000';
-            
-            // التاريخ
-            const dateStr = data.timestamp ? data.timestamp.split(',')[0] : new Date().toLocaleDateString('ar-EG');
-            document.getElementById('ticket-date').innerText = dateStr;
-
-            const qrContainer = document.getElementById('qrcode-container');
-            qrContainer.innerHTML = '';
-
-            const qrData = data.qrData || JSON.stringify({
-                id: data.id || data.ticketCode,
-                cardCode: data.cardCode,
-                name: data.name,
-                nid: data.nid,
-                year: data.year,
-                timestamp: data.timestamp
-            });
-
-            new QRCode(qrContainer, {
-                text: qrData,
-                width: 170,
-                height: 170,
-                colorDark: "#0B1121",
-                colorLight: "#ffffff",
-                correctLevel: QRCode.CorrectLevel.M
-            });
         }
 
         // --- Admin ---
@@ -1012,11 +906,12 @@
             let totalAge = 0;
             let govs = {};
 
+            // إعادة تحميل البيانات للتأكد من الصلاحية
             localDB = getStoredData();
 
             if (localDB.length === 0) {
                 tbody.innerHTML =
-                `<tr><td colspan="12" class="text-center py-6 text-slate-500">لا يوجد مسجلين حتى الآن.</td></tr>`;
+                `<tr><td colspan="11" class="text-center py-6 text-slate-500">لا يوجد مسجلين حتى الآن.</td></tr>`;
             } else {
                 localDB.forEach(user => {
                     totalAge += parseInt(user.age);
@@ -1026,12 +921,10 @@
                             <tr class="border-b border-slate-800/30 hover:bg-slate-800/20 transition">
                                 <td class="py-2 px-2 whitespace-nowrap">
                                     <p class="font-bold text-white text-xs">${user.name}</p>
+                                    <p class="text-[9px] text-slate-400">${user.email || ''}</p>
                                 </td>
                                 <td class="py-2 px-2 whitespace-nowrap">
                                     <span class="font-mono text-mawadda-cyan text-xs bg-mawadda-cyan/10 px-2 py-1 rounded tracking-widest">${user.cardCode || '-'}</span>
-                                </td>
-                                <td class="py-2 px-2 whitespace-nowrap">
-                                    <span class="font-mono text-mawadda-magenta text-xs bg-mawadda-magenta/10 px-2 py-1 rounded tracking-widest">${user.ticketCode || user.id || '-'}</span>
                                 </td>
                                 <td class="py-2 px-2 text-slate-300 text-xs max-w-[120px] truncate" title="${user.address || ''}">${user.address || '-'}</td>
                                 <td class="py-2 px-2 text-slate-300 text-xs">${user.governorate || '-'}</td>
@@ -1076,6 +969,7 @@
         }
 
         // --- Gemini AI Integration ---
+
         async function fetchGeminiWithBackoff(payload, maxRetries = 3) {
             const url =
                 `https://generativelanguage.googleapis.com/v1beta/models/gemini-3-flash-preview:generateContent?key=${GEMINI_API_KEY}`;
@@ -1108,6 +1002,7 @@
             }
         }
 
+        // Admin: AI Demographics Analyst
         async function generateAIAnalysis() {
             if (localDB.length === 0) {
                 showCustomModal("لا يوجد بيانات", "الرجاء انتظار تسجيل بعض الطلاب أولاً لتتمكن من تحليل البيانات.", "info");
