@@ -4,12 +4,9 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>تسجيل حضور ندوة مودة لطلاب معهد الدلتا</title>
-    <script src="https://cdn.tailwindcss.com">
-    </script>
+    <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;600;700;900&display=swap" rel="stylesheet">
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.9.1/chart.min.js">
-    </script>
     <script>
         tailwind.config = {
             theme: {
@@ -143,26 +140,6 @@
             border-radius: 12px;
             font-size: 10px;
         }
-
-        /* Card code input styling - 7 digits */
-        .card-code-input {
-            text-align: center;
-            font-size: 2rem;
-            letter-spacing: 0.8rem;
-            font-weight: 700;
-            font-family: monospace;
-            direction: ltr;
-            padding-right: 1.3rem;
-        }
-
-        /* Important notice pulse */
-        @keyframes noticePulse {
-            0%, 100% { box-shadow: 0 0 0 0 rgba(217, 70, 239, 0.4); }
-            50% { box-shadow: 0 0 0 10px rgba(217, 70, 239, 0); }
-        }
-        .notice-pulse {
-            animation: noticePulse 2s infinite;
-        }
     </style>
 </head>
 <body class="text-slate-200 antialiased relative overflow-x-hidden">
@@ -184,7 +161,7 @@
 
     <div class="max-w-7xl mx-auto p-4 py-8 relative z-10">
 
-        <!-- Header - Dark Mode -->
+        <!-- Header -->
         <header class="glass-panel p-4 rounded-3xl mb-8 flex flex-col md:flex-row justify-between items-center gap-4 shadow-2xl relative overflow-hidden">
             <div class="absolute top-0 right-0 w-32 h-32 bg-mawadda-cyan rounded-full mix-blend-multiply filter blur-3xl opacity-20 animate-pulse-slow"></div>
 
@@ -207,86 +184,11 @@
 
         <main id="main-container" class="min-h-[60vh]">
 
-            <!-- Gatekeeper (Card Code Login) - Dark Mode -->
-            <div id="gatekeeper-view" class="text-center py-12 animate-slide-up glass-panel rounded-3xl p-8 max-w-lg mx-auto border-t-4 border-t-mawadda-cyan shadow-2xl relative overflow-hidden">
-                <div class="absolute -bottom-10 -left-10 w-40 h-40 bg-mawadda-magenta rounded-full mix-blend-multiply filter blur-3xl opacity-20"></div>
-                
-                <!-- Important Notice Banner -->
-                <div class="notice-pulse bg-gradient-to-r from-mawadda-magenta/20 to-red-500/20 border-2 border-mawadda-magenta/50 rounded-2xl p-4 mb-6 relative z-10">
-                    <div class="flex items-center gap-3 justify-center">
-                        <i class="fa-solid fa-triangle-exclamation text-2xl text-mawadda-magenta"></i>
-                        <div class="text-right">
-                            <p class="font-black text-white text-sm">تنبيه هام جداً</p>
-                            <p class="text-xs text-slate-300 mt-1">الدخول إلى الندوة <span class="text-mawadda-magenta font-bold">بالكارنيه فقط</span> - لا يُسمح بالدخول بدون إبراز الكارنيه</p>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="mx-auto w-24 h-24 bg-slate-900 rounded-full flex items-center justify-center mb-6 border-2 border-slate-700 shadow-inner relative z-10">
-                    <i class="fa-solid fa-id-card text-4xl text-mawadda-cyan"></i>
-                </div>
-                <h2 class="text-2xl font-black text-white mb-3 relative z-10">بوابة الدخول بالكارنيه</h2>
-                <p class="text-slate-300 mb-6 text-sm leading-relaxed relative z-10">
-                    مرحباً بك في منصة تسجيل حضور ندوة مودة. يُرجى إدخال <span class="text-mawadda-cyan font-bold">كود الطالب</span> المكوّن من 7 أرقام والموجود أسفل صورتك الشخصية على الكارنيه.
-                </p>
-
-                <div class="space-y-4 relative z-10">
-                    <div>
-                        <label class="block text-sm font-semibold text-slate-300 mb-2 text-right">
-                            <i class="fa-solid fa-hashtag text-mawadda-cyan ml-1"></i>
-                            كود الطالب (7 أرقام)
-                        </label>
-                        <input type="text" id="card-code-input" 
-                               placeholder="0000000" 
-                               class="input-field card-code-input w-full p-4 rounded-xl"
-                               maxlength="7"
-                               inputmode="numeric"
-                               pattern="[0-9]*"
-                               oninput="this.value = this.value.replace(/[^0-9]/g, '').slice(0, 7)">
-                        <p class="text-[10px] text-slate-400 mt-1 text-right">
-                            <i class="fa-solid fa-circle-info text-mawadda-cyan ml-1"></i>
-                            الكود مكوّن من 7 أرقام بدون أي رموز، موجود تحت الصورة الشخصية بالكارنيه
-                        </p>
-                    </div>
-                    <button onclick="handleCardCodeSignIn()" class="group bg-gradient-to-l from-mawadda-cyan to-blue-600 hover:from-blue-600 hover:to-mawadda-magenta text-white font-bold px-8 py-4 rounded-2xl transition-all flex items-center justify-center gap-3 mx-auto w-full shadow-xl hover:shadow-mawadda-cyan/20 transform hover:-translate-y-1">
-                        <i class="fa-solid fa-right-to-bracket"></i>
-                        تسجيل الدخول
-                        <i class="fa-solid fa-arrow-left text-sm opacity-0 group-hover:opacity-100 transition-opacity mr-2"></i>
-                    </button>
-                </div>
-
-                <div class="mt-6 pt-4 border-t border-slate-700/50 relative z-10">
-                    <p class="text-[11px] text-slate-400">
-                        <i class="fa-solid fa-circle-info text-mawadda-cyan ml-1"></i>
-                        في حال فقدان الكارنيه، يُرجى التوجه إلى شؤون الطلاب لاستخراج بديل.
-                    </p>
-                </div>
-            </div>
-
-            <!-- Registration Form - Dark Mode -->
-            <div id="register-view" class="hidden animate-slide-up glass-panel p-6 md:p-8 rounded-3xl shadow-2xl">
+            <!-- Registration Form -->
+            <div id="register-view" class="animate-slide-up glass-panel p-6 md:p-8 rounded-3xl shadow-2xl">
                 <div class="flex items-center gap-3 mb-6 border-b border-slate-700/50 pb-4">
                     <i class="fa-solid fa-id-card text-2xl text-mawadda-cyan"></i>
                     <h2 class="text-xl font-bold text-white">استمارة الحضور الرقمية</h2>
-                </div>
-
-                <!-- Important Notice inside form -->
-                <div class="bg-gradient-to-r from-mawadda-magenta/10 to-red-500/10 border border-mawadda-magenta/30 rounded-2xl p-3 mb-6">
-                    <div class="flex items-center gap-3">
-                        <i class="fa-solid fa-triangle-exclamation text-lg text-mawadda-magenta"></i>
-                        <p class="text-xs text-slate-300">
-                            <span class="font-bold text-white">تذكير:</span> الدخول إلى الندوة بالكارنيه فقط. يرجى إحضار الكارنيه معك يوم الندوة.
-                        </p>
-                    </div>
-                </div>
-
-                <!-- Student Code Display -->
-                <div class="bg-mawadda-cyan/10 border border-mawadda-cyan/30 rounded-2xl p-3 mb-6 flex items-center justify-between">
-                    <div class="flex items-center gap-3">
-                        <i class="fa-solid fa-user-check text-lg text-mawadda-cyan"></i>
-                        <span class="text-xs text-slate-300">كود الطالب المسجّل:</span>
-                    </div>
-                    <span id="display-card-code" class="font-mono font-bold text-mawadda-cyan text-lg tracking-widest"></span>
                 </div>
 
                 <form id="registration-form" onsubmit="submitRegistration(event)" class="space-y-6">
@@ -387,7 +289,6 @@
                     <input type="hidden" id="reg-age" value="">
                     <input type="hidden" id="reg-gender" value="">
                     <input type="hidden" id="reg-email" value="">
-                    <input type="hidden" id="reg-card-code" value="">
 
                     <div class="mt-8">
                         <button type="submit" id="submit-btn" class="w-full bg-gradient-to-l from-mawadda-cyan to-blue-600 hover:from-blue-600 hover:to-mawadda-magenta text-white font-bold text-lg py-4 rounded-2xl transition-all shadow-lg shadow-mawadda-cyan/30 flex items-center justify-center gap-2">
@@ -398,7 +299,7 @@
                 </form>
             </div>
 
-            <!-- Success / Ticket View - Dark Mode -->
+            <!-- Success / Ticket View -->
             <div id="success-view" class="hidden animate-fade-in max-w-2xl mx-auto">
                 <div class="bg-white rounded-3xl p-1 shadow-2xl relative overflow-hidden">
                     <div class="absolute inset-0 bg-gradient-to-br from-mawadda-cyan/20 to-mawadda-magenta/20 z-0"></div>
@@ -407,15 +308,7 @@
                             <i class="fa-solid fa-check text-4xl text-green-400"></i>
                         </div>
                         <h2 class="text-2xl font-black text-white mb-2">تم تأكيد حضورك بنجاح</h2>
-                        <p class="text-slate-400 mb-4">ننتظر مشاركتك الفعالة في الندوة التوعوية</p>
-
-                        <!-- Important Notice in Ticket -->
-                        <div class="bg-mawadda-magenta/10 border border-mawadda-magenta/30 rounded-xl p-3 mb-6">
-                            <p class="text-xs text-slate-300">
-                                <i class="fa-solid fa-triangle-exclamation text-mawadda-magenta ml-1"></i>
-                                <span class="font-bold text-white">تذكير:</span> الدخول إلى الندوة بالكارنيه فقط
-                            </p>
-                        </div>
+                        <p class="text-slate-400 mb-6">ننتظر مشاركتك الفعالة في الندوة التوعوية</p>
 
                         <!-- Ticket -->
                         <div class="bg-gradient-to-r from-slate-900 to-slate-800 p-6 rounded-2xl border border-slate-700 text-right relative overflow-hidden">
@@ -445,10 +338,6 @@
                                         <p class="font-mono text-sm text-slate-300" id="ticket-nid"></p>
                                     </div>
                                 </div>
-                                <div>
-                                    <p class="text-[10px] text-slate-400">كود الطالب</p>
-                                    <p class="font-mono text-sm text-mawadda-cyan tracking-widest" id="ticket-card"></p>
-                                </div>
                             </div>
 
                             <div class="mt-6 pt-6 border-t border-slate-700/50 flex justify-center">
@@ -464,7 +353,7 @@
                 </div>
             </div>
 
-            <!-- Admin Dashboard - Dark Mode -->
+            <!-- Admin Dashboard -->
             <div id="admin-view" class="hidden animate-fade-in space-y-6">
 
                 <!-- Expiry Badge -->
@@ -490,7 +379,7 @@
                     </div>
                 </div>
 
-                <!-- AI Demographics Analyst - Dark Mode -->
+                <!-- AI Demographics Analyst -->
                 <div class="glass-panel p-1 rounded-2xl bg-gradient-to-r from-mawadda-cyan/20 to-mawadda-magenta/20">
                     <div class="bg-slate-950 p-6 rounded-xl h-full">
                         <div class="flex items-center justify-between mb-4">
@@ -509,13 +398,13 @@
                         </div>
 
                         <div id="ai-report-container" class="hidden border border-slate-800 bg-slate-900/50 p-4 rounded-xl mt-4 relative">
-                            <div class="absolute -top-3 right-4 bg-slate-900 px-2 text-[10px] text-mawadda-magenta border border-slate-800 rounded-full font-mono">Powered by Gemini 3 Flash</div>
+                            <div class="absolute -top-3 right-4 bg-slate-900 px-2 text-[10px] text-mawadda-magenta border border-slate-800 rounded-full font-mono">Powered by Gemini</div>
                             <div id="ai-report-content" class="text-sm text-slate-300 leading-relaxed font-sans whitespace-pre-wrap"></div>
                         </div>
                     </div>
                 </div>
 
-                <!-- Registered Users Table - Dark Mode -->
+                <!-- Registered Users Table -->
                 <div class="glass-panel p-4 rounded-3xl overflow-x-auto">
                     <div class="flex justify-between items-center mb-4">
                         <h3 class="font-bold text-lg text-white">سجل المسجلين</h3>
@@ -528,7 +417,6 @@
                             <thead>
                                 <tr class="text-slate-400 border-b border-slate-700/50">
                                     <th class="pb-2 px-2 font-semibold whitespace-nowrap">الاسم</th>
-                                    <th class="pb-2 px-2 font-semibold whitespace-nowrap">كود الطالب</th>
                                     <th class="pb-2 px-2 font-semibold whitespace-nowrap">العنوان</th>
                                     <th class="pb-2 px-2 font-semibold whitespace-nowrap">المحافظة</th>
                                     <th class="pb-2 px-2 font-semibold whitespace-nowrap">الحالة الاجتماعية</th>
@@ -553,7 +441,6 @@
 
     <script>
         // --- Configuration & Global State ---
-        const ADMIN_CARD_CODE = "9999999"; // Admin student code (7 digits)
         const GEMINI_API_KEY = "YOUR_GEMINI_API_KEY"; // Replace with your actual key
 
         // ✅ Google Apps Script Web App URL
@@ -617,88 +504,35 @@
             }
         });
 
-        // --- Auth (Card Code Based - 7 digits) ---
-        function handleCardCodeSignIn() {
-            const cardCode = document.getElementById('card-code-input').value.trim();
-
-            if (!cardCode) {
-                showCustomModal("خطأ", "يُرجى إدخال كود الطالب أولاً.", "error");
-                return;
-            }
-
-            // Validate: exactly 7 digits
-            if (!/^\d{7}$/.test(cardCode)) {
-                showCustomModal("خطأ", "كود الطالب يجب أن يكون 7 أرقام فقط (بدون رموز أو حروف). يُرجى التأكد من الكود الموجود أسفل صورتك على الكارنيه.", "error");
-                return;
-            }
-
-            // Check if admin
-            if (cardCode === ADMIN_CARD_CODE) {
-                currentUser = { 
-                    cardCode: cardCode, 
-                    email: 'admin@delta.edu',
-                    isAdmin: true 
-                };
-                updateAuthUI();
-                routeUser();
-                return;
-            }
-
-            // Regular user
-            currentUser = { 
-                cardCode: cardCode, 
-                email: cardCode + '@delta.edu',
-                isAdmin: false 
-            };
-            updateAuthUI();
-            routeUser();
-        }
-
-        function handleSignOut() {
-            currentUser = null;
-            updateAuthUI();
-            hideAllViews();
-            document.getElementById('gatekeeper-view').classList.remove('hidden');
-            document.getElementById('card-code-input').value = '';
-        }
-
+        // --- Auth (Guest Access - no card code) ---
         function updateAuthUI() {
             const container = document.getElementById('auth-status-container');
-            if (currentUser) {
-                const displayName = currentUser.isAdmin ? 'المدير' : currentUser.cardCode;
-                container.innerHTML = `
-                        <div class="text-left hidden md:block">
-                            <p class="text-xs text-slate-400">مرحباً</p>
-                            <p class="text-sm font-bold text-white truncate max-w-[120px] font-mono">${displayName}</p>
-                        </div>
-                        <button onclick="handleSignOut()" class="bg-slate-800 hover:bg-slate-700 text-red-400 p-2 rounded-xl transition border border-slate-700">
-                            <i class="fa-solid fa-arrow-right-from-bracket"></i>
-                        </button>
-                    `;
-            } else {
-                container.innerHTML = '';
-            }
+            container.innerHTML = `
+                <div class="text-left hidden md:block">
+                    <p class="text-xs text-slate-400">مرحباً بك</p>
+                    <p class="text-sm font-bold text-white">زائر</p>
+                </div>
+                <button onclick="showAdminLogin()" class="bg-slate-800 hover:bg-slate-700 text-mawadda-cyan p-2 rounded-xl transition border border-slate-700 text-xs px-3">
+                    <i class="fa-solid fa-user-shield ml-1"></i> دخول الإدارة
+                </button>
+            `;
         }
 
-        function routeUser() {
-            hideAllViews();
-            if (currentUser.isAdmin) {
+        function showAdminLogin() {
+            const code = prompt("أدخل كود دخول الإدارة:");
+            if (code === "9999999") {
+                currentUser = { isAdmin: true };
+                hideAllViews();
                 document.getElementById('admin-view').classList.remove('hidden');
                 loadAdminData();
-            } else {
-                const existingReg = localDB.find(r => r.cardCode === currentUser.cardCode);
-                if (existingReg) {
-                    showTicket(existingReg);
-                } else {
-                    document.getElementById('register-view').classList.remove('hidden');
-                    document.getElementById('reg-card-code').value = currentUser.cardCode;
-                    document.getElementById('display-card-code').innerText = currentUser.cardCode;
-                }
+                updateAuthUI();
+            } else if (code !== null) {
+                showCustomModal("خطأ", "كود الإدارة غير صحيح.", "error");
             }
         }
 
         function hideAllViews() {
-            ['gatekeeper-view', 'register-view', 'success-view', 'admin-view'].forEach(id => {
+            ['register-view', 'success-view', 'admin-view'].forEach(id => {
                 document.getElementById(id).classList.add('hidden');
             });
         }
@@ -727,8 +561,7 @@
 
             const btn = modal.querySelector('button');
             if (onConfirm) {
-                btn.onclick = () => { onConfirm();
-                    closeModal(); };
+                btn.onclick = () => { onConfirm(); closeModal(); };
                 btn.innerText = "تأكيد";
             } else {
                 btn.onclick = closeModal;
@@ -749,7 +582,7 @@
             setTimeout(() => { modal.classList.add('hidden'); }, 300);
         }
 
-        // --- National ID Parser ---
+        // --- National ID Parser (Age 15-31) ---
         function parseNationalID() {
             const nid = document.getElementById('reg-nid').value;
             const infoText = document.getElementById('nid-info');
@@ -788,8 +621,9 @@
                 ageInput.value = age;
                 genderInput.value = gender;
 
-                if (age < 18 || age > 25) {
-                    infoText.innerText = `عذراً، السن (${age} سنة) غير مطابق لشرط الندوة (18-25).`;
+                // شرط السن: 15 إلى 31 سنة
+                if (age < 15 || age > 31) {
+                    infoText.innerText = `عذراً، السن (${age} سنة) غير مطابق لشرط الندوة (15-31).`;
                     infoText.className = "text-xs mt-1 font-semibold h-4 text-red-400";
                     return false;
                 } else {
@@ -821,7 +655,7 @@
             }
 
             if (!parseNationalID()) {
-                showCustomModal("خطأ في البيانات", "الرجاء التأكد من صحة الرقم القومي ومطابقة شرط السن (18-25 سنة).", "error");
+                showCustomModal("خطأ في البيانات", "الرجاء التأكد من صحة الرقم القومي ومطابقة شرط السن (15-31 سنة).", "error");
                 return;
             }
 
@@ -836,7 +670,6 @@
             // ترتيب البيانات حسب المطلوب
             const data = {
                 name: name,
-                cardCode: currentUser.cardCode,
                 address: document.getElementById('reg-address').value,
                 governorate: document.getElementById('reg-gov').value,
                 status: document.getElementById('reg-status').value,
@@ -846,14 +679,12 @@
                 nid: document.getElementById('reg-nid').value,
                 gender: document.getElementById('reg-gender').value,
                 timestamp: new Date().toLocaleString('ar-EG'),
-                // حقول إضافية للاستخدام الداخلي
-                id: 'MWD-' + Math.floor(1000 + Math.random() * 9000),
-                email: currentUser.email
+                id: 'MWD-' + Math.floor(1000 + Math.random() * 9000)
             };
 
             try {
-                // إرسال البيانات إلى Google Sheets بالترتيب المطلوب
-                const response = await fetch(GOOGLE_SCRIPT_URL, {
+                // إرسال البيانات إلى Google Sheets
+                await fetch(GOOGLE_SCRIPT_URL, {
                     method: 'POST',
                     mode: 'no-cors',
                     headers: {
@@ -876,7 +707,6 @@
                 console.error("Error saving data:", error);
                 showCustomModal("خطأ", "حدث مشكلة أثناء الحفظ في الإكسيل. ولكن تم حفظ البيانات محلياً.", "warning");
                 
-                // حفظ البيانات محلياً حتى لو فشل الاتصال
                 localDB.push(data);
                 setStoredData(localDB);
                 showTicket(data);
@@ -895,7 +725,6 @@
             document.getElementById('ticket-name').innerText = data.name;
             document.getElementById('ticket-year').innerText = data.year;
             document.getElementById('ticket-nid').innerText = data.nid;
-            document.getElementById('ticket-card').innerText = data.cardCode || 'غير متوفر';
         }
 
         // --- Admin ---
@@ -906,12 +735,11 @@
             let totalAge = 0;
             let govs = {};
 
-            // إعادة تحميل البيانات للتأكد من الصلاحية
             localDB = getStoredData();
 
             if (localDB.length === 0) {
                 tbody.innerHTML =
-                `<tr><td colspan="11" class="text-center py-6 text-slate-500">لا يوجد مسجلين حتى الآن.</td></tr>`;
+                `<tr><td colspan="10" class="text-center py-6 text-slate-500">لا يوجد مسجلين حتى الآن.</td></tr>`;
             } else {
                 localDB.forEach(user => {
                     totalAge += parseInt(user.age);
@@ -921,10 +749,6 @@
                             <tr class="border-b border-slate-800/30 hover:bg-slate-800/20 transition">
                                 <td class="py-2 px-2 whitespace-nowrap">
                                     <p class="font-bold text-white text-xs">${user.name}</p>
-                                    <p class="text-[9px] text-slate-400">${user.email || ''}</p>
-                                </td>
-                                <td class="py-2 px-2 whitespace-nowrap">
-                                    <span class="font-mono text-mawadda-cyan text-xs bg-mawadda-cyan/10 px-2 py-1 rounded tracking-widest">${user.cardCode || '-'}</span>
                                 </td>
                                 <td class="py-2 px-2 text-slate-300 text-xs max-w-[120px] truncate" title="${user.address || ''}">${user.address || '-'}</td>
                                 <td class="py-2 px-2 text-slate-300 text-xs">${user.governorate || '-'}</td>
@@ -969,10 +793,9 @@
         }
 
         // --- Gemini AI Integration ---
-
         async function fetchGeminiWithBackoff(payload, maxRetries = 3) {
             const url =
-                `https://generativelanguage.googleapis.com/v1beta/models/gemini-3-flash-preview:generateContent?key=${GEMINI_API_KEY}`;
+                `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=${GEMINI_API_KEY}`;
             let retries = 0;
 
             while (retries < maxRetries) {
@@ -1002,7 +825,6 @@
             }
         }
 
-        // Admin: AI Demographics Analyst
         async function generateAIAnalysis() {
             if (localDB.length === 0) {
                 showCustomModal("لا يوجد بيانات", "الرجاء انتظار تسجيل بعض الطلاب أولاً لتتمكن من تحليل البيانات.", "info");
@@ -1043,6 +865,10 @@
                 btn.disabled = false;
             }
         }
+
+        // --- Kickoff ---
+        updateAuthUI();
+        document.getElementById('register-view').classList.remove('hidden');
     </script>
 
 </body>
